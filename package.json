@@ -1,0 +1,14 @@
+{
+  "name": "academic-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal Academic Hub with tasks, presentations, references and web push reminders",
+  "scripts": {
+    "start": "node server.js",
+    "vapid": "node -e \"const w=require('web-push'); console.log(w.generateVAPIDKeys())\""
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "web-push": "^3.6.7"
+  }
+}
