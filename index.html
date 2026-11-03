@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="Academic Hub — kelola jadwal, tugas, referensi, dan pengingat akademik.">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Academic Hub</title>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">A</div><div><strong>Academic Hub</strong><small>PERSONAL WORKSPACE</small></div></div>
+      <div class="nav-label">WORKSPACE</div>
+      <button class="nav active" data-view="dashboard"><span>▦</span> Dashboard</button>
+      <button class="nav" data-view="agenda"><span>◷</span> Agenda</button>
+      <button class="nav" data-view="tasks"><span>☷</span> Tugas</button>
+      <button class="nav" data-view="references"><span>▤</span> Referensi</button>
+      <div class="sidebar-bottom">
+        <div class="mini-card"><span class="pulse"></span><div><b>Ruang akademik</b><small>Semua aktivitas dalam satu tempat</small></div></div>
+        <button class="nav" data-view="settings"><span>⚙</span> Pengaturan</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow" id="todayLabel">ACADEMIC OVERVIEW</div><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="top-actions"><span class="date-chip" id="dateChip"></span><button class="icon-btn" id="notifyTop" title="Aktifkan notifikasi">♧</button><div class="avatar">AH</div></div>
+      </header>
+
+      <section id="dashboardView" class="view">
+        <div class="welcome panel">
+          <div><div class="eyebrow light">PERSONAL ACADEMIC ASSISTANT</div><h2>Atur ritme akademikmu.</h2><p>Catat presentasi, pantau tenggat, dan simpan referensi dalam satu ruang kerja.</p><button class="btn btn-light" id="quickAdd">＋ Tambah agenda</button></div>
+          <div class="welcome-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="calendar-art"><span>UP NEXT</span><b id="nextDay">--</b><small id="nextMonth">BELUM ADA AGENDA</small><i>✦</i></div></div>
+        </div>
+        <div class="stats">
+          <article class="stat-card"><div class="stat-icon purple">▣</div><span>Presentasi mendatang</span><strong id="statPresentations">0</strong><small>Agenda presentasi</small></article>
+          <article class="stat-card"><div class="stat-icon blue">☷</div><span>Tugas aktif</span><strong id="statTasks">0</strong><small>Belum selesai</small></article>
+          <article class="stat-card"><div class="stat-icon amber">◷</div><span>Deadline terdekat</span><strong class="stat-word" id="statDeadline">—</strong><small id="deadlineSub">Tidak ada deadline</small></article>
+          <article class="stat-card"><div class="stat-icon green">▤</div><span>Referensi tersimpan</span><strong id="statRefs">0</strong><small>Materi akademik</small></article>
+        </div>
+        <div class="section-grid">
+          <section class="panel content-panel"><div class="section-head"><div><div class="eyebrow">UPCOMING</div><h3>Agenda terdekat</h3></div><button class="text-btn" data-goto="agenda">Lihat semua →</button></div><div id="upcomingList" class="item-list"></div></section>
+          <section class="panel content-panel"><div class="section-head"><div><div class="eyebrow">TASK TRACKER</div><h3>Daftar tugas</h3></div><button class="text-btn" data-goto="tasks">Lihat semua →</button></div><div id="dashboardTasks" class="item-list"></div></section>
+        </div>
+        <section class="panel content-panel"><div class="section-head"><div><div class="eyebrow">QUICK ACCESS</div><h3>Akses cepat</h3></div></div><div class="quick-grid"><button class="quick-action" data-open="agenda"><span>＋</span><b>Tambah presentasi</b><small>Catat jadwal kelas</small></button><button class="quick-action" data-open="tasks"><span>☷</span><b>Buat tugas</b><small>Atur target pengerjaan</small></button><button class="quick-action" data-open="references"><span>▤</span><b>Simpan referensi</b><small>Kelola sumber bacaan</small></button></div></section>
+      </section>
+
+      <section id="agendaView" class="view hidden">
+        <div class="page-intro"><div><h2>Agenda akademik</h2><p>Kelola presentasi, ujian, diskusi, dan kegiatan kampus.</p></div><button class="btn btn-primary" id="addEvent">＋ Tambah agenda</button></div>
+        <div id="agendaList" class="card-list"></div>
+      </section>
+
+      <section id="tasksView" class="view hidden">
+        <div class="page-intro"><div><h2>Manajemen tugas</h2><p>Pantau progres dan tenggat setiap pekerjaan.</p></div><button class="btn btn-primary" id="addTask">＋ Tambah tugas</button></div>
+        <div class="filter-row"><button class="filter active" data-filter="all">Semua</button><button class="filter" data-filter="active">Aktif</button><button class="filter" data-filter="done">Selesai</button></div>
+        <div id="taskList" class="card-list"></div>
+      </section>
+
+      <section id="referencesView" class="view hidden">
+        <div class="page-intro"><div><h2>Perpustakaan referensi</h2><p>Simpan jurnal, buku, artikel, dan tautan sumber tugas.</p></div><button class="btn btn-primary" id="addReference">＋ Simpan referensi</button></div>
+        <div class="search-wrap"><span>⌕</span><input id="referenceSearch" placeholder="Cari judul, penulis, atau mata kuliah..."></div>
+        <div id="referenceList" class="reference-grid"></div>
+      </section>
+
+      <section id="settingsView" class="view hidden">
+        <div class="page-intro"><div><h2>Pengaturan</h2><p>Atur notifikasi dan preferensi Academic Hub.</p></div></div>
+        <div class="panel settings-panel"><div class="setting-row"><div><b>Notifikasi browser</b><p>Izinkan Academic Hub mengirim pengingat di perangkat ini.</p></div><button class="btn btn-primary" id="enablePush">Aktifkan notifikasi</button></div><div class="setting-row"><div><b>Uji notifikasi push</b><p>Kirim pesan percobaan melalui server push setelah VAPID dikonfigurasi.</p></div><button class="btn btn-secondary" id="testPush">Kirim tes</button></div><div class="setting-row"><div><b>Pengingat agenda</b><p>Pengingat lokal dijadwalkan 3 hari, 1 hari, dan 1 jam sebelum agenda saat halaman aktif.</p></div><span class="status-pill">Aktif di perangkat</span></div><div class="setting-row"><div><b>Data perangkat</b><p>Data versi pertama disimpan di browser ini (localStorage).</p></div><button class="btn btn-danger" id="clearData">Hapus seluruh data</button></div><p class="note">Catatan: pengiriman push saat browser tertutup memerlukan server yang aktif, VAPID keys, dan scheduler pengingat. Tombol uji push akan berfungsi setelah konfigurasi server.</p></div>
+      </section>
+
+      <footer>ACADEMIC HUB <span>•</span> VERSION 1.0 <span class="footer-right">Built for focused learning</span></footer>
+    </main>
+  </div>
+
+  <dialog id="eventDialog" class="modal">
+    <form id="eventForm" method="dialog"><div class="modal-head"><div><div class="eyebrow">ACADEMIC CALENDAR</div><h3 id="eventModalTitle">Tambah agenda</h3></div><button type="button" class="close" data-close="eventDialog">×</button></div>
+      <input type="hidden" id="eventId">
+      <label>Nama agenda<input id="eventTitle" required placeholder="Contoh: Presentasi Filsafat Islam"></label>
+      <div class="form-row"><label>Jenis<select id="eventType"><option>Presentasi</option><option>Ujian</option><option>Diskusi</option><option>Kegiatan kampus</option><option>Lainnya</option></select></label><label>Mata kuliah<input id="eventCourse" placeholder="Contoh: Filsafat Islam"></label></div>
+      <div class="form-row"><label>Tanggal<input id="eventDate" type="date" required></label><label>Waktu<input id="eventTime" type="time" value="09:00" required></label></div>
+      <label>Lokasi / ruang<input id="eventLocation" placeholder="Contoh: Ruang 204"></label>
+      <label>Catatan<textarea id="eventNotes" rows="2" placeholder="Materi, kelompok, atau persiapan..."></textarea></label>
+      <div class="modal-actions"><button type="button" class="btn btn-secondary" data-close="eventDialog">Batal</button><button class="btn btn-primary" type="submit">Simpan agenda</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="taskDialog" class="modal">
+    <form id="taskForm" method="dialog"><div class="modal-head"><div><div class="eyebrow">TASK MANAGER</div><h3 id="taskModalTitle">Tambah tugas</h3></div><button type="button" class="close" data-close="taskDialog">×</button></div>
+      <input type="hidden" id="taskId">
+      <label>Nama tugas<input id="taskTitle" required placeholder="Contoh: Esai kesetaraan gender"></label>
+      <div class="form-row"><label>Mata kuliah<input id="taskCourse" placeholder="Contoh: Sosiologi"></label><label>Prioritas<select id="taskPriority"><option value="Normal">Normal</option><option value="Tinggi">Tinggi</option><option value="Rendah">Rendah</option></select></label></div>
+      <label>Deadline<input id="taskDate" type="date" required></label>
+      <label>Catatan<textarea id="taskNotes" rows="2" placeholder="Instruksi atau detail tugas..."></textarea></label>
+      <div class="modal-actions"><button type="button" class="btn btn-secondary" data-close="taskDialog">Batal</button><button class="btn btn-primary" type="submit">Simpan tugas</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="referenceDialog" class="modal">
+    <form id="referenceForm" method="dialog"><div class="modal-head"><div><div class="eyebrow">REFERENCE LIBRARY</div><h3 id="refModalTitle">Simpan referensi</h3></div><button type="button" class="close" data-close="referenceDialog">×</button></div>
+      <input type="hidden" id="refId">
+      <label>Judul referensi<input id="refTitle" required placeholder="Judul buku, jurnal, atau artikel"></label>
+      <div class="form-row"><label>Penulis<input id="refAuthor" placeholder="Nama penulis"></label><label>Jenis<select id="refType"><option>Jurnal</option><option>Buku</option><option>Artikel</option><option>Website</option><option>Lainnya</option></select></label></div>
+      <label>Mata kuliah / kategori<input id="refCourse" placeholder="Contoh: Filsafat Islam"></label>
+      <label>URL sumber<input id="refUrl" type="url" placeholder="https://..."></label>
+      <label>Catatan<textarea id="refNotes" rows="2" placeholder="Ringkasan atau halaman penting..."></textarea></label>
+      <div class="modal-actions"><button type="button" class="btn btn-secondary" data-close="referenceDialog">Batal</button><button class="btn btn-primary" type="submit">Simpan referensi</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
